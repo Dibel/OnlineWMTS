@@ -6,8 +6,6 @@ Created on 2012-7-19
 '''
 import tornado.ioloop
 import tornado.web
-import sqlite3, StringIO, math
-from tornado.web import GZipContentEncoding
 from tornado.httpclient import AsyncHTTPClient
 import pycurl
 
@@ -47,6 +45,12 @@ class WMTSHandler(tornado.web.RequestHandler):
         col = self.get_argument("TileCol", -1)
         level = self.get_argument("TileMatrix", -1)
         layer = self.get_argument("layer", "google_street")
+
+        if row == -1 or col == -1 or level == -1:
+            row = self.get_argument("TILEROW", -1)
+            col = self.get_argument("TILECOL", -1)
+            level = self.get_argument("TILEMATRIX", -1)
+            layer = self.get_argument("LAYER", "google_street")
 
         def xy_to_bing(x, y, z):
             quadkey = ""
@@ -89,11 +93,8 @@ class WMTSHandler(tornado.web.RequestHandler):
 
     post = get
 
-#GZipContentEncoding.CONTENT_TYPES.add("image/png")
 
-application = tornado.web.Application([
-                                          (r"/wmts", WMTSHandler)
-                                      ], "", None)
+application = tornado.web.Application([(r"/wmts", WMTSHandler)], "", None)
 
 application.listen(5555)
 tornado.ioloop.IOLoop.instance().start()
