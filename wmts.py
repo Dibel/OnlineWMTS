@@ -19,9 +19,13 @@ class WMTSHandler(tornado.web.RequestHandler):
         "google_satellite": "http://mt0.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x=%s&y=%s&z=%s",
         "tiandi_wgs84": "http://t2.tianditu.com/DataServer?T=vec_c&x=%s&y=%s&l=%s",
         "tiandi_mercator": "http://t2.tianditu.com/DataServer?T=vec_w&x=%s&y=%s&l=%s",
-        "bing": "http://t0.tiles.ditu.live.com/tiles/r%s.png?g=100&mkt=zh-cn&n=z",
-        "openstreet": r"http://a.tile.openstreetmap.org/%s/%s/%s.png",
-        "opencycle": r"http://c.tile.opencyclemap.org/cycle/%s/%s/%s.png"
+        "bing": "http://t1.tiles.ditu.live.com/tiles/r%s.png?g=100&mkt=zh-cn&n=z",
+        "openstreet": "http://a.tile.openstreetmap.org/%s/%s/%s.png",
+        "opencycle": "http://c.tile.opencyclemap.org/cycle/%s/%s/%s.png",
+        "amap": "http://webrd02.is.autonavi.com/appmaptile?size=1&scale=1&style=7&x=%s&y=%s&z=%s",
+        "tencent": "http://p3.map.gtimg.com/maptilesv2/%s/%s/%s/%s_%s.png",
+        "here": "http://3.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/normal.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
+        "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907"
     }
 
     def initialize(self):
@@ -65,15 +69,18 @@ class WMTSHandler(tornado.web.RequestHandler):
             return quadkey
 
         if row != -1 and col != -1 and level != -1:
-            if layer == "satellite":
+            if layer == "google_satellite":
                 self.set_header("Content-Type", "image/jpeg")
             else:
                 self.set_header("Content-Type", "image/png")
             if layer == "bing":
                 key = xy_to_bing(int(col), int(row), int(level))
                 url = self.url_pattern.get(layer) % key
-            elif layer == "openstreet" or layer == "opencycle":
+            elif layer == "openstreet" or layer == "opencycle" or layer == "here":
                 url = self.url_pattern.get(layer) % (level, col, row)
+            elif layer == "tencent":
+                new_row = pow(2, int(level)) - 1 - int(row)
+                url = self.url_pattern.get(layer) % (level, str(int(col) / 16), str(new_row / 16), col, str(new_row))
             else:
                 url = self.url_pattern.get(layer) % (col, row, level)
             print url
@@ -83,12 +90,12 @@ class WMTSHandler(tornado.web.RequestHandler):
                 request = tornado.httpclient.HTTPRequest(url, request_timeout=5, user_agent=self.request.headers["User-Agent"])
             except:
                 request = tornado.httpclient.HTTPRequest(url, request_timeout=5)
+
             client.fetch(request, self.write_response)
 
         else:
             self.set_header("Content-Type", "text/xml;charset=utf-8")
-            self.xml = open("wmts.xml").read()
-            self.write(self.xml)
+            self.write(open("wmts.xml").read())
             self.finish()
 
     post = get
