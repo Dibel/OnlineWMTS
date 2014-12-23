@@ -28,7 +28,7 @@ class WMTSHandler(tornado.web.RequestHandler):
         "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907",
         "360": "http://map0.ishowchina.com/sotile/?x=%s&y=%s&z=%s&style=2&v=2",
         "supermap": "http://t1.supermapcloud.com/FileService/image?x=%s&y=%s&z=%s",
-        "mapbac": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
+        "mapabc": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
         "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s"
     }
 
