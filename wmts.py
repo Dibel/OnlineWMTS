@@ -1,13 +1,9 @@
-# coding=utf-8
-'''
-Created on 2012-7-19
-将google Map转化为WMST服务
-@author: fiftyk
-'''
 import tornado.ioloop
 import tornado.web
 from tornado.httpclient import AsyncHTTPClient
 import pycurl
+import math
+from __future__ import division
 
 AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=20)
 
@@ -29,7 +25,8 @@ class WMTSHandler(tornado.web.RequestHandler):
         "360": "http://map0.ishowchina.com/sotile/?x=%s&y=%s&z=%s&style=2&v=2",
         "supermap": "http://t1.supermapcloud.com/FileService/image?x=%s&y=%s&z=%s",
         "mapabc": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
-        "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s"
+        "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s",
+        "51ditu": "http://cache5.51ditu.com/%s/%s%s.png"
     }
 
     def initialize(self):
@@ -72,6 +69,25 @@ class WMTSHandler(tornado.web.RequestHandler):
                 quadkey = str(digit) + quadkey
             return quadkey
 
+        def xy_to_51ditu(x, y, z):
+            x -= 512
+            y = pow(2, (z - 1)) - 1 - y
+            ce = int(math.ceil((z - 5) / 4))
+            ve = 0
+            be = 0
+            ne = 0
+            me = ""
+            for _e in range(ce):
+                Qe = 1 << (4 * (ce - _e))
+                We = int((x - ve * ne) / Qe)
+                Ee = int((y - be * ne) / Qe)
+                me += (str(We) if (We > 9) else ("0" + str(We))) + (str(Ee) if (Ee > 9) else ("0" + str(Ee))) + "/"
+                ve = We
+                be = Ee
+                ne = Qe
+            Te = (((x) & ((1 << 20) - 1)) + (((y) & ((1 << 20) - 1)) * pow(2, 20)) + (((z) & ((1 << 8) - 1)) * pow(2, 40)))
+            return me, Te
+
         if row != -1 and col != -1 and level != -1:
             if layer == "google_satellite":
                 self.set_header("Content-Type", "image/jpeg")
@@ -88,10 +104,13 @@ class WMTSHandler(tornado.web.RequestHandler):
                 url = self.url_pattern.get(layer) % (level, row, col)
             elif layer == "tencent":
                 new_row = pow(2, int(level)) - 1 - int(row)
-                url = self.url_pattern.get(layer) % (level, str(int(col) / 16), str(new_row / 16), col, str(new_row))
+                url = self.url_pattern.get(layer) % (level, str(int(col) // 16), str(new_row // 16), col, str(new_row))
             elif layer == "360":
                 new_row = pow(2, int(level)) - 1 - int(row)
                 url = self.url_pattern.get(layer) % (col, new_row, level)
+            elif layer == "51ditu":
+                url1, url2 = xy_to_51ditu(int(col), int(row), int(level))
+                url = self.url_pattern.get(layer) % (level, url1, url2)
             else:
                 url = self.url_pattern.get(layer) % (col, row, level)
             print url
