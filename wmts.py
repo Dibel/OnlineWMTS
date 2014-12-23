@@ -1,9 +1,9 @@
+from __future__ import division
 import tornado.ioloop
 import tornado.web
 from tornado.httpclient import AsyncHTTPClient
 import pycurl
 import math
-from __future__ import division
 
 AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient", max_clients=20)
 
@@ -70,7 +70,7 @@ class WMTSHandler(tornado.web.RequestHandler):
             return quadkey
 
         def xy_to_51ditu(x, y, z):
-            x -= 512
+            x -= pow(2, (z - 1))
             y = pow(2, (z - 1)) - 1 - y
             ce = int(math.ceil((z - 5) / 4))
             ve = 0

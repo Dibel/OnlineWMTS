@@ -167,6 +167,21 @@
 				</TileMatrixSetLink>
 			</Layer>
 			<Layer>
+				<ows:Title>51ditu</ows:Title>
+				<ows:WGS84BoundingBox>
+					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+					<ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+				</ows:WGS84BoundingBox>
+				<ows:Identifier>51ditu</ows:Identifier>
+				<Style isDefault="true">
+					<ows:Identifier>default</ows:Identifier>
+				</Style>
+				<Format>image/png</Format>
+				<TileMatrixSetLink>
+					<TileMatrixSet>GMAP</TileMatrixSet>
+				</TileMatrixSetLink>
+			</Layer>
+			<Layer>
 				<ows:Title>Tencent Map</ows:Title>
 				<ows:WGS84BoundingBox>
 					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
