@@ -1,9 +1,3 @@
-# coding=utf-8
-'''
-Created on 2012-7-19
-将google Map转化为WMST服务
-@author: fiftyk
-'''
 import tornado.ioloop
 import tornado.web
 from tornado.httpclient import AsyncHTTPClient
