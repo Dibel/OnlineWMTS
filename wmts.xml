@@ -211,6 +211,66 @@
 					<TileMatrixSet>GMAP</TileMatrixSet>
 				</TileMatrixSetLink>
 			</Layer>
+			<Layer>
+				<ows:Title>360 Map</ows:Title>
+				<ows:WGS84BoundingBox>
+					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+					<ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+				</ows:WGS84BoundingBox>
+				<ows:Identifier>360</ows:Identifier>
+				<Style isDefault="true">
+					<ows:Identifier>default</ows:Identifier>
+				</Style>
+				<Format>image/png</Format>
+				<TileMatrixSetLink>
+					<TileMatrixSet>GMAP</TileMatrixSet>
+				</TileMatrixSetLink>
+			</Layer>
+			<Layer>
+				<ows:Title>MapABC Map</ows:Title>
+				<ows:WGS84BoundingBox>
+					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+					<ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+				</ows:WGS84BoundingBox>
+				<ows:Identifier>mapabc</ows:Identifier>
+				<Style isDefault="true">
+					<ows:Identifier>default</ows:Identifier>
+				</Style>
+				<Format>image/png</Format>
+				<TileMatrixSetLink>
+					<TileMatrixSet>GMAP</TileMatrixSet>
+				</TileMatrixSetLink>
+			</Layer>
+			<Layer>
+				<ows:Title>Supermap Cloud</ows:Title>
+				<ows:WGS84BoundingBox>
+					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+					<ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+				</ows:WGS84BoundingBox>
+				<ows:Identifier>supermap</ows:Identifier>
+				<Style isDefault="true">
+					<ows:Identifier>default</ows:Identifier>
+				</Style>
+				<Format>image/png</Format>
+				<TileMatrixSetLink>
+					<TileMatrixSet>GMAP</TileMatrixSet>
+				</TileMatrixSetLink>
+			</Layer>
+			<Layer>
+				<ows:Title>GeoQ</ows:Title>
+				<ows:WGS84BoundingBox>
+					<ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+					<ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+				</ows:WGS84BoundingBox>
+				<ows:Identifier>geoq</ows:Identifier>
+				<Style isDefault="true">
+					<ows:Identifier>default</ows:Identifier>
+				</Style>
+				<Format>image/jpg</Format>
+				<TileMatrixSetLink>
+					<TileMatrixSet>GMAP</TileMatrixSet>
+				</TileMatrixSetLink>
+			</Layer>
 			<TileMatrixSet>
 		  <ows:Title>GoogleMapsCompatible</ows:Title>
 		  <ows:Abstract>the wellknown \'GoogleMapsCompatible\' tile matrix set defined by OGC WMTS specification</ows:Abstract>

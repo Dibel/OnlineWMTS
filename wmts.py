@@ -25,7 +25,11 @@ class WMTSHandler(tornado.web.RequestHandler):
         "amap": "http://webrd02.is.autonavi.com/appmaptile?size=1&scale=1&style=7&x=%s&y=%s&z=%s",
         "tencent": "http://p3.map.gtimg.com/maptilesv2/%s/%s/%s/%s_%s.png",
         "here": "http://3.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/normal.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
-        "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907"
+        "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907",
+        "360": "http://map0.ishowchina.com/sotile/?x=%s&y=%s&z=%s&style=2&v=2",
+        "supermap": "http://t1.supermapcloud.com/FileService/image?x=%s&y=%s&z=%s",
+        "mapbac": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
+        "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s"
     }
 
     def initialize(self):
@@ -71,6 +75,8 @@ class WMTSHandler(tornado.web.RequestHandler):
         if row != -1 and col != -1 and level != -1:
             if layer == "google_satellite":
                 self.set_header("Content-Type", "image/jpeg")
+            elif layer == "geoq":
+                self.set_header("Content-Type", "image/jpg")
             else:
                 self.set_header("Content-Type", "image/png")
             if layer == "bing":
@@ -78,9 +84,14 @@ class WMTSHandler(tornado.web.RequestHandler):
                 url = self.url_pattern.get(layer) % key
             elif layer == "openstreet" or layer == "opencycle" or layer == "here":
                 url = self.url_pattern.get(layer) % (level, col, row)
+            elif layer == "geoq":
+                url = self.url_pattern.get(layer) % (level, row, col)
             elif layer == "tencent":
                 new_row = pow(2, int(level)) - 1 - int(row)
                 url = self.url_pattern.get(layer) % (level, str(int(col) / 16), str(new_row / 16), col, str(new_row))
+            elif layer == "360":
+                new_row = pow(2, int(level)) - 1 - int(row)
+                url = self.url_pattern.get(layer) % (col, new_row, level)
             else:
                 url = self.url_pattern.get(layer) % (col, row, level)
             print url
