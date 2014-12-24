@@ -19,14 +19,15 @@ class WMTSHandler(tornado.web.RequestHandler):
         "openstreet": "http://a.tile.openstreetmap.org/%s/%s/%s.png",
         "opencycle": "http://c.tile.opencyclemap.org/cycle/%s/%s/%s.png",
         "amap": "http://webrd02.is.autonavi.com/appmaptile?size=1&scale=1&style=7&x=%s&y=%s&z=%s",
-        "tencent": "http://p3.map.gtimg.com/maptilesv2/%s/%s/%s/%s_%s.png",
+        "tencent": "http://p1.map.gtimg.com/maptilesv2/%s/%s/%s/%s_%s.png",
         "here": "http://3.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/normal.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
         "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907",
         "360": "http://map0.ishowchina.com/sotile/?x=%s&y=%s&z=%s&style=2&v=2",
         "supermap": "http://t1.supermapcloud.com/FileService/image?x=%s&y=%s&z=%s",
         "mapabc": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
         "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s",
-        "51ditu": "http://cache5.51ditu.com/%s/%s%s.png"
+        "51ditu": "http://cache5.51ditu.com/%s/%s%s.png",
+        "baidu": "http://shangetu1.map.bdimg.com/it/u=x=%s;y=%s;z=%s;v=017;type=web&fm=44"
     }
 
     def initialize(self):
@@ -111,6 +112,19 @@ class WMTSHandler(tornado.web.RequestHandler):
             elif layer == "51ditu":
                 url1, url2 = xy_to_51ditu(int(col), int(row), int(level))
                 url = self.url_pattern.get(layer) % (level, url1, url2)
+            elif layer == "baidu":
+                offset = 3 * pow(2, (int(level) - 3))
+                new_col = int(col) - offset
+                new_row = offset - 1 - int(row)
+                if new_col < 0:
+                    new_col = 'M' + str(-new_col)
+                else:
+                    new_col = str(new_col)
+                if new_row < 0:
+                    new_row = 'M' + str(-new_row)
+                else:
+                    new_row = str(new_row)
+                url = self.url_pattern.get(layer) % (new_col, new_row, level)
             else:
                 url = self.url_pattern.get(layer) % (col, row, level)
             print url
