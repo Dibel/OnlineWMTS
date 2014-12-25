@@ -27,7 +27,8 @@ class WMTSHandler(tornado.web.RequestHandler):
         "mapabc": "http://emap1.mapabc.com/mapabc/maptile?x=%s&y=%s&z=%s",
         "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s",
         "51ditu": "http://cache5.51ditu.com/%s/%s%s.png",
-        "baidu": "http://shangetu1.map.bdimg.com/it/u=x=%s;y=%s;z=%s;v=017;type=web&fm=44"
+        "baidu": "http://shangetu1.map.bdimg.com/it/u=x=%s;y=%s;z=%s;v=017;type=web&fm=44",
+        "sogou": "http://p1.go2map.com/seamless1/0/174/%s/%s/%s/%s_%s.png"
     }
 
     def initialize(self):
@@ -125,6 +126,28 @@ class WMTSHandler(tornado.web.RequestHandler):
                 else:
                     new_row = str(new_row)
                 url = self.url_pattern.get(layer) % (new_col, new_row, level)
+            elif layer == "sogou":
+                offset = 3 * pow(2, (int(level) - 3))
+                new_col = int(col) - offset
+                new_row = offset - 1 - int(row)
+                new_level = 729 - int(level)
+                if new_level == 710:
+                    new_level = 792
+                factor_x = int(math.floor(new_col / 200))
+                factor_y = int(math.floor(new_row / 200))
+                if new_col < 0:
+                    new_col = 'M' + str(-new_col)
+                    factor_x = 'M' + str(-factor_x)
+                else:
+                    new_col = str(new_col)
+                    factor_x = str(factor_x)
+                if new_row < 0:
+                    new_row = 'M' + str(-new_row)
+                    factor_y = 'M' + str(-factor_y)
+                else:
+                    new_row = str(new_row)
+                    factor_y = str(factor_y)
+                url = self.url_pattern.get(layer) % (str(new_level), factor_x, factor_y, new_col, new_row)
             else:
                 url = self.url_pattern.get(layer) % (col, row, level)
             print url
