@@ -168,9 +168,9 @@ class WMTSHandler(tornado.web.RequestHandler):
 
             client = AsyncHTTPClient()
             try:
-                request = tornado.httpclient.HTTPRequest(url, request_timeout=5, user_agent=self.request.headers["User-Agent"])
+                request = tornado.httpclient.HTTPRequest(url, request_timeout=4, user_agent=self.request.headers["User-Agent"])
             except:
-                request = tornado.httpclient.HTTPRequest(url, request_timeout=5)
+                request = tornado.httpclient.HTTPRequest(url, request_timeout=4)
 
             client.fetch(request, self.write_response)
 
