@@ -12,8 +12,8 @@
         <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
     </ows:ServiceIdentification>
     <ows:ServiceProvider>
-        <ows:ProviderName>http://localhost:5555/wmts</ows:ProviderName>
-        <ows:ProviderSite xlink:href="http://localhost:5555/wmts"/>
+        <ows:ProviderName>http://dibel.ml:7777/wmts</ows:ProviderName>
+        <ows:ProviderSite xlink:href="http://dibel.ml:7777/wmts"/>
         <ows:ServiceContact>
             <ows:IndividualName>Dibel</ows:IndividualName>
         </ows:ServiceContact>
@@ -22,7 +22,7 @@
         <ows:Operation name="GetCapabilities">
             <ows:DCP>
                 <ows:HTTP>
-                    <ows:Get xlink:href="http://localhost:5555/wmts?">
+                    <ows:Get xlink:href="http://dibel.ml:7777/wmts?">
                         <ows:Constraint name="GetEncoding">
                             <ows:AllowedValues>
                                 <ows:Value>KVP</ows:Value>
@@ -35,7 +35,7 @@
         <ows:Operation name="GetTile">
             <ows:DCP>
                 <ows:HTTP>
-                    <ows:Get xlink:href="http://localhost:5555/wmts?">
+                    <ows:Get xlink:href="http://dibel.ml:7777/wmts?">
                         <ows:Constraint name="GetEncoding">
                             <ows:AllowedValues>
                                 <ows:Value>KVP</ows:Value>
@@ -123,6 +123,21 @@
             </TileMatrixSetLink>
         </Layer>
         <Layer>
+            <ows:Title>Bing Satellite Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>bing_satellite</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
             <ows:Title>Tiandi WGS84 Map</ows:Title>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-180.0 -90.0</ows:LowerCorner>
@@ -153,12 +168,87 @@
             </TileMatrixSetLink>
         </Layer>
         <Layer>
+            <ows:Title>Tiandi Satellite Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>tiandi_satellite</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>My Data</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>mydata</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
             <ows:Title>AMap</ows:Title>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
                 <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
             </ows:WGS84BoundingBox>
             <ows:Identifier>amap</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>AMap Satellite</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>amap_satellite</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>Taobao Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>taobao</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>Sina Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>sina</ows:Identifier>
             <Style isDefault="true">
                 <ows:Identifier>default</ows:Identifier>
             </Style>
@@ -198,12 +288,57 @@
             </TileMatrixSetLink>
         </Layer>
         <Layer>
+            <ows:Title>MapQuest Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>mapquest</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
             <ows:Title>Here Map</ows:Title>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
                 <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
             </ows:WGS84BoundingBox>
             <ows:Identifier>here</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>Here Satellite Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>here_satellit</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>Here Terrain Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>here_terrain</ows:Identifier>
             <Style isDefault="true">
                 <ows:Identifier>default</ows:Identifier>
             </Style>
@@ -288,6 +423,21 @@
             </TileMatrixSetLink>
         </Layer>
         <Layer>
+            <ows:Title>ArcGIS Online</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-20037508.34278925 -20037508.34278925</ows:LowerCorner>
+                <ows:UpperCorner>20037508.34278925 20037508.34278925</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>arcgis</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>GMAP</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
             <ows:Title>Baidu Map</ows:Title>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-25166680.8 -16777216</ows:LowerCorner>
@@ -303,6 +453,21 @@
             </TileMatrixSetLink>
         </Layer>
         <Layer>
+            <ows:Title>Baidu Satellite Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-25166680.8 -16777216</ows:LowerCorner>
+                <ows:UpperCorner>25166680.8 25192584.2</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>baidu_satellite</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>BAIDU</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
             <ows:Title>Sogou Map</ows:Title>
             <ows:WGS84BoundingBox>
                 <ows:LowerCorner>-25476100.8 -16777216</ows:LowerCorner>
@@ -313,6 +478,21 @@
                 <ows:Identifier>default</ows:Identifier>
             </Style>
             <Format>image/png</Format>
+            <TileMatrixSetLink>
+                <TileMatrixSet>SOGOU</TileMatrixSet>
+            </TileMatrixSetLink>
+        </Layer>
+        <Layer>
+            <ows:Title>Sogou Satellite Map</ows:Title>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-25476100.8 -16777216</ows:LowerCorner>
+                <ows:UpperCorner>25476100.8 25077645.8</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:Identifier>sogou_satellite</ows:Identifier>
+            <Style isDefault="true">
+                <ows:Identifier>default</ows:Identifier>
+            </Style>
+            <Format>image/jpeg</Format>
             <TileMatrixSetLink>
                 <TileMatrixSet>SOGOU</TileMatrixSet>
             </TileMatrixSetLink>
@@ -1320,5 +1500,5 @@
             </TileMatrix>
         </TileMatrixSet>
     </Contents>
-    <ServiceMetadataURL xlink:href="http://localhost:5555/wmts?REQUEST=getcapabilities&amp;VERSION=1.0.0"/>
+    <ServiceMetadataURL xlink:href="http://dibel.ml:7777/wmts?REQUEST=getcapabilities&amp;VERSION=1.0.0"/>
 </Capabilities>

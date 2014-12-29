@@ -15,12 +15,17 @@ class WMTSHandler(tornado.web.RequestHandler):
         "google_satellite": "http://mt0.google.cn/vt/lyrs=s&hl=zh-CN&gl=cn&x=%s&y=%s&z=%s",
         "tiandi_wgs84": "http://t2.tianditu.com/DataServer?T=vec_c&x=%s&y=%s&l=%s",
         "tiandi_mercator": "http://t2.tianditu.com/DataServer?T=vec_w&x=%s&y=%s&l=%s",
+        "tiandi_satellite": "http://t2.tianditu.com/DataServer?T=img_w&x=%s&y=%s&l=%s",
         "bing": "http://t1.tiles.ditu.live.com/tiles/r%s.png?g=100&mkt=zh-cn&n=z",
+        "bing_satellite": "http://ak.dynamic.t1.tiles.virtualearth.net/comp/ch/%s?mkt=en-us&it=A,G,L,LA&shading=hill&og=67&n=z",
         "openstreet": "http://a.tile.openstreetmap.org/%s/%s/%s.png",
         "opencycle": "http://c.tile.opencyclemap.org/cycle/%s/%s/%s.png",
         "amap": "http://webrd02.is.autonavi.com/appmaptile?size=1&scale=1&style=7&x=%s&y=%s&z=%s",
+        "amap_satellite": "http://webst03.is.autonavi.com/appmaptile?style=6&x=%s&y=%s&z=%s",
         "tencent": "http://p1.map.gtimg.com/maptilesv2/%s/%s/%s/%s_%s.png",
         "here": "http://3.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/normal.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
+        "here_satellit": "http://1.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/hybrid.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
+        "here_terrain": "http://1.maps.nlp.nokia.com.cn/maptile/2.1/maptile/newest/terrain.day/%s/%s/%s/256/png8?lg=CHI&app_id=90oGXsXHT8IRMSt5D79X&token=JY0BReev8ax1gIrHZZoqIg",
         "apple": "http://cdn-cn1.apple-mapkit.com/tp/2/tiles?x=%s&y=%s&z=%s&lang=zh-Hans&size=1&scale=1&style=0&vendorkey=546bccd01bb595c1ae74836bf94b56735aa7f907",
         "360": "http://map0.ishowchina.com/sotile/?x=%s&y=%s&z=%s&style=2&v=2",
         "supermap": "http://t1.supermapcloud.com/FileService/image?x=%s&y=%s&z=%s",
@@ -28,7 +33,14 @@ class WMTSHandler(tornado.web.RequestHandler):
         "geoq": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/%s/%s/%s",
         "51ditu": "http://cache5.51ditu.com/%s/%s%s.png",
         "baidu": "http://shangetu1.map.bdimg.com/it/u=x=%s;y=%s;z=%s;v=017;type=web&fm=44",
-        "sogou": "http://p1.go2map.com/seamless1/0/174/%s/%s/%s/%s_%s.png"
+        "baidu_satellite": "http://shangetu1.map.bdimg.com/it/u=x=%s;y=%s;z=%s;v=009;type=sate&fm=46",
+        "sogou": "http://p1.go2map.com/seamless1/0/174/%s/%s/%s/%s_%s.png",
+        "sogou_satellite": "http://hbpic2.go2map.com/seamless/0/180/%s/%s/%s/%s_%s.JPG",
+        "sina": "http://dituapi.iask.com:8080/mapabc/maptile?v=w2.61&z=%s&x=%s&y=%s",
+        "mapquest": "http://ttiles03.mqcdn.com/tiles/1.0.0/vy/map/%s/%s/%s.png",
+        "arcgis": "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/%s/%s/%s",
+        "taobao": "http://img.ditu.aliyun.com/get_png?v=v4&x=%s&y=%s&z=%s",
+        "mydata": "http://127.0.0.1:7081/PBS/rest/services/MyPBSService1/MapServer/WMTS/tile/1.0.0/MyPBSService1/default/GoogleMapsCompatible/%s/%s/%s.png"
     }
 
     def initialize(self):
@@ -91,18 +103,20 @@ class WMTSHandler(tornado.web.RequestHandler):
             return me, Te
 
         if row != -1 and col != -1 and level != -1:
-            if layer == "google_satellite":
+            if "satellite" in layer:
                 self.set_header("Content-Type", "image/jpeg")
             elif layer == "geoq":
                 self.set_header("Content-Type", "image/jpg")
+            elif layer == "mapquest" or layer == "arcgis":
+                self.set_header("Content-Type", "image/jpeg")
             else:
                 self.set_header("Content-Type", "image/png")
-            if layer == "bing":
+            if layer == "bing" or layer == "bing_satellite":
                 key = xy_to_bing(int(col), int(row), int(level))
                 url = self.url_pattern.get(layer) % key
-            elif layer == "openstreet" or layer == "opencycle" or layer == "here":
+            elif layer == "openstreet" or layer == "opencycle" or layer == "here" or layer == "sina" or layer == "here_satellit" or layer == "here_terrain" or layer == "mapquest":
                 url = self.url_pattern.get(layer) % (level, col, row)
-            elif layer == "geoq":
+            elif layer == "geoq" or layer == "mydata" or layer == "arcgis":
                 url = self.url_pattern.get(layer) % (level, row, col)
             elif layer == "tencent":
                 new_row = pow(2, int(level)) - 1 - int(row)
@@ -113,7 +127,7 @@ class WMTSHandler(tornado.web.RequestHandler):
             elif layer == "51ditu":
                 url1, url2 = xy_to_51ditu(int(col), int(row), int(level))
                 url = self.url_pattern.get(layer) % (level, url1, url2)
-            elif layer == "baidu":
+            elif layer == "baidu" or layer == "baidu_satellite":
                 offset = 3 * pow(2, (int(level) - 3))
                 new_col = int(col) - offset
                 new_row = offset - 1 - int(row)
@@ -126,7 +140,7 @@ class WMTSHandler(tornado.web.RequestHandler):
                 else:
                     new_row = str(new_row)
                 url = self.url_pattern.get(layer) % (new_col, new_row, level)
-            elif layer == "sogou":
+            elif layer == "sogou" or layer == "sogou_satellite":
                 offset = 3 * pow(2, (int(level) - 3))
                 new_col = int(col) - offset
                 new_row = offset - 1 - int(row)
@@ -170,5 +184,5 @@ class WMTSHandler(tornado.web.RequestHandler):
 
 application = tornado.web.Application([(r"/wmts", WMTSHandler)], "", None)
 
-application.listen(5555)
+application.listen(7777)
 tornado.ioloop.IOLoop.instance().start()
